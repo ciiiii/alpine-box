@@ -56,6 +56,7 @@
       "execute_command": "{{.Vars}} /bin/sh {{.Path}}",
       "scripts": [
         "./scripts/provision.sh",
+        "./scripts/docker.sh",
         "./scripts/clean.sh"
       ]
     }
@@ -63,7 +64,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "./dist/{{.BuildName}}-{{user `version`}}.box",
+      "output": "./dist/{{.BuildName}}-{{user `version`}}-docker.box",
       "vagrantfile_template": "Vagrantfile.template"
     }
   ]

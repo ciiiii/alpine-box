@@ -3,3 +3,4 @@ packer_cache/
 *.tmp
 *.box
 output*
+dist/*
