@@ -2,7 +2,7 @@ This builds an up-to-date Vagrant Alpine Linux Base Box.
 
 It contains the base Alpine Linux Image and the one with Docker installed.
 
-Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.11.
+Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.11.5
 
 # Usage
 
@@ -15,3 +15,5 @@ make docker
 ```
 
 The default mirror source is TUNA, and time zone is UTC.
+
+Default user: root / vagrant

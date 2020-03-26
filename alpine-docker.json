@@ -1,9 +1,9 @@
 {
   "variables": {
-    "disk_size": "8192",
-    "version": "311",
-    "iso_url": "https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/releases/x86_64/alpine-virt-3.11.4-x86_64.iso",
-    "iso_checksum": "45e208c6b60032c52e97f43fef9c471c9948367039f017b69607b54e7d73e76d",
+    "disk_size": "41960",
+    "version": "3.11.5",
+    "iso_url": "https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/releases/x86_64/alpine-virt-3.11.5-x86_64.iso",
+    "iso_checksum": "8e14a8f23d1d0a3772d486a94a7d707df65a942e605617ed6431fcb1ede387e4",
     "iso_checksum_type": "sha256"
   },
   "builders": [
@@ -29,8 +29,8 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "root",
       "ssh_password": "vagrant",
-      "ssh_wait_timeout": "10m",
-      "boot_wait": "20s",
+      "ssh_wait_timeout": "300000m",
+      "boot_wait": "30s",
       "boot_command": [
         "root<enter><wait>",
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait>",
