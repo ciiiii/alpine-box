@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -eux -o pipefail
+set -o xtrace
 
 uptime && date
 
