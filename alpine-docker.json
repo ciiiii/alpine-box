@@ -1,39 +1,9 @@
 {
-  "variables": {
-    "disk_size": "41960",
-    "version": "3.11.5",
-    "iso_url": "https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/releases/x86_64/alpine-virt-3.11.5-x86_64.iso",
-    "iso_checksum": "8e14a8f23d1d0a3772d486a94a7d707df65a942e605617ed6431fcb1ede387e4",
-    "iso_checksum_type": "sha256"
-  },
   "builders": [
     {
-      "name": "alpine",
-      "type": "virtualbox-iso",
-      "guest_os_type": "Linux26_64",
-      "guest_additions_mode": "disable",
-      "headless": true,
-      "http_directory": "./http",
-      "vboxmanage": [
-        ["modifyvm","{{.Name}}","--cpus","1"],
-        ["modifyvm","{{.Name}}","--memory","1024"],
-        ["modifyvm","{{.Name}}","--vram", "32"],
-        ["modifyvm","{{.Name}}","--cableconnected1","on"],
-        ["modifyvm","{{.Name}}","--audio","none"],
-        ["modifyvm","{{.Name}}","--usb","off"]
-      ],
-      "disk_size": "{{user `disk_size`}}",
-      "hard_drive_interface": "sata",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "ssh_username": "root",
-      "ssh_password": "vagrant",
-      "ssh_wait_timeout": "300000m",
-      "boot_wait": "30s",
       "boot_command": [
         "root<enter><wait>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait>",
+        "ifconfig eth0 up \u0026\u0026 udhcpc -i eth0<enter><wait>",
         "wget -O /tmp/answers http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
         "setup-alpine -f /tmp/answers<enter><wait5>",
         "vagrant<enter><wait>",
@@ -47,25 +17,85 @@
         "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
         "reboot<enter>"
       ],
-      "shutdown_command": "/sbin/poweroff"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} /bin/sh {{.Path}}",
-      "scripts": [
-        "./scripts/provision.sh",
-        "./scripts/docker.sh",
-        "./scripts/clean.sh"
+      "boot_wait": "30s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Linux26_64",
+      "hard_drive_interface": "sata",
+      "headless": true,
+      "http_directory": "./http",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "name": "alpine",
+      "shutdown_command": "/sbin/poweroff",
+      "ssh_password": "vagrant",
+      "ssh_timeout": "300000m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "32"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cableconnected1",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--audio",
+          "none"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--usb",
+          "off"
+        ]
       ]
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant",
       "output": "./dist/{{.BuildName}}-{{user `version`}}-docker.box",
+      "type": "vagrant",
       "vagrantfile_template": "Vagrantfile.template"
     }
-  ]
+  ],
+  "provisioners": [
+    {
+      "execute_command": "{{.Vars}} /bin/sh {{.Path}}",
+      "scripts": [
+        "./scripts/provision.sh",
+        "./scripts/docker.sh",
+        "./scripts/clean.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "disk_size": "41960",
+    "iso_checksum": "8e14a8f23d1d0a3772d486a94a7d707df65a942e605617ed6431fcb1ede387e4",
+    "iso_checksum_type": "sha256",
+    "iso_url": "https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.11/releases/x86_64/alpine-virt-3.11.5-x86_64.iso",
+    "version": "3.11.5"
+  }
 }
+
